@@ -1,5 +1,5 @@
 const express=require("express");
-
+const{users}=require("../data/users.json");
 const router=express.Router(); // import router funtion to use as a router
 
 

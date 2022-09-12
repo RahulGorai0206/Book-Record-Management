@@ -10,7 +10,12 @@ const router=express.Router(); // import router funtion to use as a router
  * Access: Public
  * Paramerers: None
  */
-
+ router.get("/",(req,res)=>{
+    res.status(200).json({
+        success: true,
+        data:books,
+    });
+});
 
 
 module.exports=router;
