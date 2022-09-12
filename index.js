@@ -73,6 +73,43 @@ app.get("/users",(req,res)=>{
         data: users,
     });
 });
+/**
+ * Route: /users/:id
+ * Method: PUT
+ * Description: Update user
+ * Access: Public
+ * Paramerers: id
+ */
+ app.put("/users/:id",(req,res)=>{
+    const {id}=req.params;
+    const {data}=req.body;
+    const user=users.find((each)=>each.id===id);
+    if(!user){
+        return res.status(404).json({
+            success:false,
+            message: "user not found"
+        });
+    }else{
+        const UpdateData=users.map((each)=>{ // map through all the data
+            if(each.id==id){
+                return{
+                    ...each,
+                    ...data,
+                };
+            }
+            return each;
+        })
+        res.status(200).json({
+            success: true,
+            data: UpdateData,
+        });
+    };
+});
+
+
+
+
+
 
 
 
