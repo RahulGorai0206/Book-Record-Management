@@ -10,7 +10,7 @@ const port=8080; // http://localhost:8080/
 
 app.use(express.json());
 app.use("/users",UserRoute); // use user file for all user requests
-app.use("/books",UserRoute); // use book file for all book requests
+app.use("/books",BooksRoute); // use book file for all book requests
 
 app.all("*",(req,res)=>{
     res.status(404).send({
