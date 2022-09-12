@@ -1,0 +1,26 @@
+{
+  "name": "book-record_management",
+  "version": "1.0.0",
+  "description": "Book Management API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RahulGorai0206/Book-Record-Management.git"
+  },
+  "author": "Rahul Gorai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RahulGorai0206/Book-Record-Management/issues"
+  },
+  "homepage": "https://github.com/RahulGorai0206/Book-Record-Management#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
