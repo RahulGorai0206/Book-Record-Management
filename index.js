@@ -16,6 +16,8 @@ app.all("*",(req,res)=>{
     });
 })
 
+
+
 app.listen(port,()=>{
     console.log(`Server started in port: ${port}`);
 });
