@@ -1,5 +1,6 @@
 const express=require("express");
-const{books}=require("../data/books.json"); // importing users data
+const{books}=require("../data/books.json"); // importing books data
+const{users}=require("../data/users.json"); // importing users data
 const router=express.Router(); // import router funtion to use as a router
 
 /**
@@ -12,7 +13,7 @@ const router=express.Router(); // import router funtion to use as a router
  router.get("/",(req,res)=>{
     res.status(200).json({
         success: true,
-        data:books,
+        data:books, // get the all books 
     });
 });
 /**
@@ -22,9 +23,9 @@ const router=express.Router(); // import router funtion to use as a router
  * Access: Public
  * Paramerers: id
  */
- router.get("/:id",(req,res)=>{
+ router.get("/:id",(req,res)=>{ 
     const {id}=req.params;
-    const book=books.find((each)=>each.id===id);
+    const book=books.find((each)=>each.id===id); // search by id and save it on book variable
     if(!book){
         return res.status(404).json({
             success:false,
@@ -33,9 +34,40 @@ const router=express.Router(); // import router funtion to use as a router
     }else{
         res.status(200).json({
             success: true,
-            data: book,
+            data: book, // get the book by id
         });
     };
+});
+/**
+ * Route: /books/issued/by-user
+ * Method: GET
+ * Description: Get books that all issued
+ * Access: Public
+ * Paramerers: none
+ */
+ router.get("/issued/by-user",(req,res)=>{
+    const UserWithBooks=users.filter((each)=>{ // filter the user that have issued books and save in a variable
+        if(each.issuedBook) return each;
+    });
+    const issuedBooks=[];
+    UserWithBooks.forEach((each)=>{
+        const book=books.find((book)=>book.id===each.issuedBook); // get the book by their id
+        book.IssuedBy=each.name; // add some extra parameters
+        book.IssuedDate=each.issuedDate;
+        book.ReturnDate=each.returnDate;
+        issuedBooks.push(book); // save it to book variable
+    });
+
+    if(issuedBooks.length===0) // check the lenth if its empty or not
+        return res.status(404).json({
+            success: false,
+            message:"No Book Issued Yet",
+        });
+    
+    return res.status(200).json({
+        success:true,
+        data:issuedBooks, // return issued books
+    });
 });
 
 
