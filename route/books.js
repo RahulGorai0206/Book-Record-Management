@@ -99,6 +99,35 @@ router.post('/',(req,res)=>{
         data:AllBooks, // return books
     });
 });
+/**
+ * Route: /books/:id
+ * Method: PUT
+ * Description: Update book details
+ * Access: Public
+ * Paramerers: id
+ * Data : author, name, genre, price, publisher, id
+ */
+router.put('/:id',(req,res)=>{
+    const {id}=req.params; // get the id
+    const {data}=req.body; // get the data
+    const UpdateBook=books.find((each)=>each.id===id); // get the book on thr basis of id
+    if(!UpdateBook){
+        return res.status(404).json({
+            success: false,
+            message:"No book found on this id", // for no data thing
+        });
+    }
+    const UpdateData=books.map((each)=>{
+        if(each.id===id){
+            return{...each, ...data}; // updating the data
+        }
+        return each;
+    });
+    return res.status(200).json({
+        success:true,
+        data:UpdateData, // return books
+    });
+});
 
 
 
