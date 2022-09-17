@@ -128,7 +128,44 @@ router.put('/:id',(req,res)=>{
         data:UpdateData, // return books
     });
 });
-
-
+/**
+ * Route: /books/issued/withFine
+ * Method: PUT
+ * Description: Get all issued book with fine
+ * Access: Public
+ * Paramerers: none
+ */
+router.get('/issued/withFine',(req,res)=>{
+    const UserWithBooks=users.filter((each)=>{ // filter the user that have issued books and save in a variable
+        if(each.issuedBook) return each;
+    });
+    const GetDateInDays=(data="")=>{
+        let date;
+        if(data===""){
+            date= new Date(); // get current date
+        }else{
+            date=new Date(data); // get on the basis of data variable
+        }
+        let days=Math.floor(date/(1000*60*60*42)); // convert date in to days by dividing with miliseconds*seconds*minuites*hours
+        return days;
+        };
+        const GetSubscriptionType=(date)=>{
+            if(user.subscriptionType==="Basic"){
+                date=date+90;
+            } else if(user.subscriptionType==="Standard"){
+                date=date+180;
+            } else{
+                date=date+365;
+            }
+            return date;
+        };
+        let ReturnDate=GetDateInDays(user.returnDate);
+        let CurrentDate=GetDateInDays();
+        let SubscriptionDate=GetDateInDays(user.subscriptionDate);
+        let SubscriptionExpired=GetSubscriptionType(SubscriptionDate);
+    const BooksWithFine=UserWithBooks.filter((each)=>{
+        if(each.returnDate)
+    });
+});
 
 module.exports=router;

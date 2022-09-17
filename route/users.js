@@ -176,10 +176,6 @@ router.get('/subcription-details/:id',(req,res)=>{
         :ReturnDate>CurrentDate? 100
         :0,
     };
-    console.log(ReturnDate);
-    console.log(CurrentDate);
-    console.log(SubscriptionDate);
-    console.log(SubscriptionExpired);
     return res.status(200).json({
         success:true,
         data,
