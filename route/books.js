@@ -69,8 +69,36 @@ const router=express.Router(); // import router funtion to use as a router
         data:issuedBooks, // return issued books
     });
 });
+/**
+ * Route: /books
+ * Method: POST
+ * Description: Create new book
+ * Access: Public
+ * Paramerers: none
+ * Data : author, name, genre, price, publisher, id
+ */
+router.post('/',(req,res)=>{
+    const {data}=req.body;
+    if(!data){
+        return res.status(404).json({
+            success: false,
+            message:"No Data Recived",
+        });
+    }
+    const book=books.find((each)=>each.id===data.id);
+    if(book){
+        return res.status(404).json({
+            success:false,
+            message: "Book id already exist",
+        });
+    }
 
-
+    const AllBooks=[...books,data];
+    return res.status(200).json({
+        success:true,
+        data:AllBooks, // return books
+    });
+});
 
 
 
