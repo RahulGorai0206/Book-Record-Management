@@ -127,7 +127,65 @@ router.delete('/:id',(req,res)=>{
     });
 
 });
+/**
+ * Route: /users/subcription-details/id
+ * Method: GET
+ * Description: Get subcription details
+ * Access: Public
+ * Paramerers: id
+ */
+router.get('/subcription-details/:id',(req,res)=>{
+    const {id}=req.params;
+    const user=users.find((each)=>each.id===id);
+    if(!user){
+        return res.status(404).json({
+            success:false,
+            message:"User not foundddd"
+        });
+    }
+    const GetDateInDays=(data="")=>{
+    let date;
+    if(data===""){
+        date= new Date(); // get current date
+    }else{
+        date=new Date(data); // get on the basis of data variable
+    }
+    let days=Math.floor(date/(1000*60*60*42)); // convert date in to days by dividing with miliseconds*seconds*minuites*hours
+    return days;
+    };
+    const GetSubscriptionType=(date)=>{
+        if(user.subscriptionType==="Basic"){
+            date=date+90;
+        } else if(user.subscriptionType==="Standard"){
+            date=date+180;
+        } else{
+            date=date+365;
+        }
+        return date;
+    };
+    let ReturnDate=GetDateInDays(user.returnDate);
+    let CurrentDate=GetDateInDays();
+    let SubscriptionDate=GetDateInDays(user.subscriptionDate);
+    let SubscriptionExpired=GetSubscriptionType(SubscriptionDate);
+    const data={
+        ...user,
+        subscriptionExpired:SubscriptionExpired<CurrentDate,
+        daysLeftForExpiration:SubscriptionExpired<=CurrentDate ?0:SubscriptionExpired-CurrentDate,
+        fine: ReturnDate>CurrentDate && SubscriptionExpired<=CurrentDate?200
+        :SubscriptionExpired<CurrentDate? 100
+        :ReturnDate>CurrentDate? 100
+        :0,
+    };
+    console.log(ReturnDate);
+    console.log(CurrentDate);
+    console.log(SubscriptionDate);
+    console.log(SubscriptionExpired);
+    return res.status(200).json({
+        success:true,
+        data,
+    });
 
+});
 
 
 module.exports=router;
