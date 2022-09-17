@@ -1,3 +1,4 @@
+const e = require("express");
 const express=require("express");
 const{books}=require("../data/books.json"); // importing books data
 const{users}=require("../data/users.json"); // importing users data
@@ -140,31 +141,45 @@ router.get('/issued/withFine',(req,res)=>{
         if(each.issuedBook) return each;
     });
     const GetDateInDays=(data="")=>{
-        let date;
-        if(data===""){
-            date= new Date(); // get current date
-        }else{
-            date=new Date(data); // get on the basis of data variable
-        }
-        let days=Math.floor(date/(1000*60*60*42)); // convert date in to days by dividing with miliseconds*seconds*minuites*hours
-        return days;
-        };
-        const GetSubscriptionType=(date)=>{
-            if(user.subscriptionType==="Basic"){
+    let date;
+    if(data===""){
+        date= new Date(); // get current date
+    }else{
+        date=new Date(data); // get on the basis of data variable
+    }
+    let days=Math.floor(date/(1000*60*60*42)); // convert date in to days by dividing with miliseconds*seconds*minuites*hours
+    return days;
+    };
+    
+        let CurrentDate=GetDateInDays();
+    const UserWithFine=UserWithBooks.filter((each)=>{
+        let GetSubscriptionType=(date)=>{
+            if(each.subscriptionType==="Basic"){
                 date=date+90;
-            } else if(user.subscriptionType==="Standard"){
+            } else if(each.subscriptionType==="Standard"){
                 date=date+180;
             } else{
                 date=date+365;
             }
             return date;
         };
-        let ReturnDate=GetDateInDays(user.returnDate);
-        let CurrentDate=GetDateInDays();
-        let SubscriptionDate=GetDateInDays(user.subscriptionDate);
-        let SubscriptionExpired=GetSubscriptionType(SubscriptionDate);
-    const BooksWithFine=UserWithBooks.filter((each)=>{
-        if(each.returnDate)
+        if(GetDateInDays(each.returnDate)>CurrentDate ||GetSubscriptionType(GetDateInDays(each.subscriptionDate))<CurrentDate){
+            return {
+                ...each,
+            };
+        }
+    });
+    const BooksWithFine=books.filter((each)=>{
+        let comp=UserWithFine.map((eacj)=>{
+            if(each.id===eacj.issuedBook)
+            console.log(each.id)
+            return each;
+        });
+        return comp;
+    })
+    return res.status(200).json({
+        success:true,
+        ...BooksWithFine, // return books
     });
 });
 

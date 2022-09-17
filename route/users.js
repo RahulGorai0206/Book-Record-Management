@@ -140,7 +140,7 @@ router.get('/subcription-details/:id',(req,res)=>{
     if(!user){
         return res.status(404).json({
             success:false,
-            message:"User not foundddd"
+            message:"User not found"
         });
     }
     const GetDateInDays=(data="")=>{

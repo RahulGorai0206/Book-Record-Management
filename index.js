@@ -12,11 +12,11 @@ app.use(express.json());
 app.use("/users",UserRoute); // use user file for all user requests
 app.use("/books",BooksRoute); // use book file for all book requests
 
-app.all("*",(req,res)=>{
-    res.status(404).send({
-        Message:"Invalid URL"
-    });
-})
+// app.all("*",(req,res)=>{
+//     res.status(404).send({
+//         Message:"Invalid URL"
+//     });
+// })
 
 app.listen(port,()=>{
     console.log(`Server started in port: ${port}`);
