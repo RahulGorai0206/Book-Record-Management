@@ -82,14 +82,14 @@ router.post('/',(req,res)=>{
     if(!data){
         return res.status(404).json({
             success: false,
-            message:"No Data Recived",
+            message:"No Data Recived", // for no data thing
         });
     }
-    const book=books.find((each)=>each.id===data.id);
+    const book=books.find((each)=>each.id===data.id); // match the id
     if(book){
         return res.status(404).json({
             success:false,
-            message: "Book id already exist",
+            message: "Book id already exist", // for exiting book id
         });
     }
 
