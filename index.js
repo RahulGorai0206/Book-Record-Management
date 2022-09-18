@@ -4,8 +4,8 @@ const dotenv = require("dotenv");
 const DbConnection=require("./DatabaseConnection"); // database connection
 
 // importing routes
-const UserRoute=require("./route/users");
-const BooksRoute=require("./route/books");
+const UserRoute=require("./routes/users");
+const BooksRoute=require("./routes/books");
 
 dotenv.config();
 
