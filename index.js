@@ -1,6 +1,8 @@
 const express=require("express");
 const dotenv = require("dotenv");
 
+const DbConnection=require("./DatabaseConnection"); // database connection
+
 // importing routes
 const UserRoute=require("./route/users");
 const BooksRoute=require("./route/books");
@@ -8,6 +10,7 @@ const BooksRoute=require("./route/books");
 dotenv.config();
 
 const app =express();
+DbConnection(); // connect database after starting express
 const port=8080; // http://localhost:8080/
 
 app.use(express.json());
