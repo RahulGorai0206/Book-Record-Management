@@ -1,9 +1,11 @@
 const express=require("express");
+const dotenv = require("dotenv");
 
 // importing routes
 const UserRoute=require("./route/users");
 const BooksRoute=require("./route/books");
 
+dotenv.config();
 
 const app =express();
 const port=8080; // http://localhost:8080/
