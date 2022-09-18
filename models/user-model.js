@@ -19,6 +19,10 @@ const UserSchema=new Schema( // create a object of schema
             ref:"Book", // setting a referance that it can connect to book database
             require:false,
         },
+        issuedDate:{
+            type: String,
+            require:false,
+        },
         returnDate:{
             type: String,
             require:false,
